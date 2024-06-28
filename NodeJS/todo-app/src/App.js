@@ -49,6 +49,11 @@ function App() {
       <ul>
         {todos.map(todo => (
           <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
             <span
               style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
               onClick={() => toggleTodo(todo.id)}

@@ -1,7 +1,9 @@
 const express = require('express');
+const cors = require('cors')
 const app = express();
 const port = 3001;
 
+app.use(cors());
 app.use(express.json());
 
 let todos = [
@@ -11,7 +13,7 @@ let todos = [
         completed: false
     }
 ];
-let currentId = 1;
+let currentId = 2;
 
 // Get all todos
 app.get('/todos', (req, res) => {
