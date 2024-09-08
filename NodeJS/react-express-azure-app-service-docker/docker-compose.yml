@@ -1,0 +1,24 @@
+name: react-express
+services:
+  backend:
+    build:
+      context: ./api
+      dockerfile: dockerfile
+    container_name: backend-express
+    image: usmslm102/express-todo-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    build:
+      context: ./todo-app-react
+      dockerfile: dockerfile
+    container_name: frontend-react
+    image: usmslm102/react-todo-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
