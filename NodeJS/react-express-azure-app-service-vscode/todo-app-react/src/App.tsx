@@ -6,7 +6,7 @@ import { Button } from './components/ui/button';
 import { Label } from './components/ui/label';
 import { Checkbox } from './components/ui/checkbox';
 
-const apiUrl = 'https://localhost:3001/todos';
+const apiUrl = 'http://localhost:3001/todos';
 
 function App() {
   const [todos, setTodos] = useState<any[]>([]);
