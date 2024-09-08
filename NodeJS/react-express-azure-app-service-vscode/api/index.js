@@ -9,7 +9,7 @@ app.use(express.json());
 let todos = [
     {
         id: 1,
-        title: 'Test Todo',
+        title: 'Test Todo App',
         completed: false
     }
 ];
