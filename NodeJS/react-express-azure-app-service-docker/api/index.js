@@ -1,27 +1,33 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
 const app = express();
 const port = 3001;
 
 app.use(cors());
 app.use(express.json());
 
+// Define base URL
+app.use('/api', (req, res, next) => {
+  // This middleware will be executed for all routes starting with '/api'
+  next();
+});
+
 let todos = [
-    {
-        id: 1,
-        title: 'Test Todo App',
-        completed: false
-    }
+  {
+    id: 1,
+    title: 'Test Todo App',
+    completed: false
+  }
 ];
 let currentId = 2;
 
 // Get all todos
-app.get('/todos', (req, res) => {
+app.get('/api/todos', (req, res) => {
   res.json(todos);
 });
 
 // Get a specific todo by id
-app.get('/todos/:id', (req, res) => {
+app.get('/api/todos/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   const todo = todos.find(t => t.id === id);
   if (todo) {
@@ -32,7 +38,7 @@ app.get('/todos/:id', (req, res) => {
 });
 
 // Create a new todo
-app.post('/todos', (req, res) => {
+app.post('/api/todos', (req, res) => {
   const { title, completed = false } = req.body;
   const newTodo = { id: currentId++, title, completed };
   todos.push(newTodo);
@@ -40,7 +46,7 @@ app.post('/todos', (req, res) => {
 });
 
 // Update an existing todo
-app.put('/todos/:id', (req, res) => {
+app.put('/api/todos/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   const { title, completed } = req.body;
   const todoIndex = todos.findIndex(t => t.id === id);
@@ -53,7 +59,7 @@ app.put('/todos/:id', (req, res) => {
 });
 
 // Delete a todo
-app.delete('/todos/:id', (req, res) => {
+app.delete('/api/todos/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
   const todoIndex = todos.findIndex(t => t.id === id);
   if (todoIndex > -1) {
