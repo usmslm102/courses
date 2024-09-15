@@ -6,7 +6,7 @@ services:
       context: ./proxy
       dockerfile: Dockerfile  # Custom Nginx Dockerfile
     container_name: proxy
-    image: usmslm102/nginx-proxy:latest
+    image: ghcr.io/usmslm102/courses/nginx-proxy:latest
     ports:
       - "80:80"     # Expose Nginx on port 80 to the public
     depends_on:
@@ -20,7 +20,7 @@ services:
       context: ./api
       dockerfile: Dockerfile  # Backend Dockerfile
     container_name: backend-express
-    image: usmslm102/express-todo-backend:latest
+    image: ghcr.io/usmslm102/courses/express-todo-backend:latest
     expose:
       - "3001"   # Only expose this port internally to Nginx (no external access)
     environment:
@@ -33,7 +33,7 @@ services:
       context: ./todo-app-react
       dockerfile: Dockerfile  # Frontend Dockerfile
     container_name: frontend-react
-    image: usmslm102/react-todo-frontend:latest
+    image: ghcr.io/usmslm102/courses/react-todo-frontend:latest
     expose:
       - "80"    # Only expose internally (no external access)
     depends_on:
