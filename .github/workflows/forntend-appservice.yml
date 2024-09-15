@@ -17,7 +17,9 @@ permissions:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    environment: Production
+    environment: 
+      name: Production
+      url: ${{steps.deploy-to-webapp.outputs.webapp-url}}
     defaults:
       run:
         working-directory: ./NodeJS/github-actions/react-express/todo-app-react

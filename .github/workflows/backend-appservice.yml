@@ -3,7 +3,7 @@ on:
     branches: [ "main" ]
     paths:
       - "NodeJS/github-actions/react-express/api/**"
-      - ".github/workflows/**"
+      - ".github/workflows/backend-appservice.yml"
   workflow_dispatch:
 
 env:
