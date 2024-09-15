@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: .NodeJS/github-actions/react-express/todo-app-react
+        working-directory: ./NodeJS/github-actions/react-express/todo-app-react
     steps:
     - uses: actions/checkout@v4
     
