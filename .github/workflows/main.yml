@@ -20,7 +20,10 @@
 on:
   push:
     branches: [ "test-build" ]
-    paths: ./NodeJS/react-express-azure-app-service-vscode/api
+    paths: [
+      "NodeJS/react-express-azure-app-service-vscode/api/**",
+      ".github/workflows/main.yml"
+    ]
   workflow_dispatch:
 
 env:
