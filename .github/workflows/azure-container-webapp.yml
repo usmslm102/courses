@@ -36,8 +36,21 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           push: true
-          tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
-          context: ./NodeJS/react-express-azure-app-service-docker/api
+          tags: ghcr.io/${{ env.REPO }}/nginx-proxy:${{ github.sha }}
+          file: ./NodeJS/react-express-azure-app-service-docker/proxy/dockerfile
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO }}/react-todo-frontend:${{ github.sha }}
+          file: ./NodeJS/react-express-azure-app-service-docker/todo-app-react/dockerfile
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO }}/express-todo-backend:${{ github.sha }}
           file: ./NodeJS/react-express-azure-app-service-docker/api/dockerfile
 
   deploy:
