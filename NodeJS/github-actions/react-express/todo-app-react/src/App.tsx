@@ -6,7 +6,7 @@ import { Button } from './components/ui/button';
 import { Label } from './components/ui/label';
 import { Checkbox } from './components/ui/checkbox';
 
-const apiUrl = 'http://localhost:3001/todos';
+const apiUrl = 'https://todo-app-bkend.azurewebsites.net/todos';
 
 function App() {
   const [todos, setTodos] = useState<any[]>([]);
@@ -42,7 +42,7 @@ function App() {
 
   return (
     <div className="flex flex-col items-center p-4">
-      <h1 className="text-2xl font-bold mb-4">Todo List</h1>
+      <h1 className="text-2xl font-bold mb-4">Todo List 123</h1>
       <div className="flex mb-4">
         <Input
           type="text"
