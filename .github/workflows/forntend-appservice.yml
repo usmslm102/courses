@@ -3,7 +3,7 @@ on:
     branches: [ "test-build" ]
     paths: 
       - "NodeJS/react-express-azure-app-service-vscode/todo-app-react/**"
-      - ".github/workflows/frontend-appservice.yml"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 env:
