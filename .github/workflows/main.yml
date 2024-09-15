@@ -33,21 +33,25 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./NodeJS/react-express-azure-app-service-vscode/api
     steps:
     - uses: actions/checkout@v4
-
+    
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        
     
     - name: check working folder
-      working-directory: /NodeJS/react-express-azure-app-service-vscode/api
+      working-directory: ./NodeJS/react-express-azure-app-service-vscode/api
       run: pwd
     
     - name: npm install, build, and test
-      working-directory: /NodeJS/react-express-azure-app-service-vscode/api
+      working-directory: ./NodeJS/react-express-azure-app-service-vscode/api
       run: |
         npm install
 
@@ -55,4 +59,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: /NodeJS/react-express-azure-app-service-vscode/api
+        path: ./NodeJS/react-express-azure-app-service-vscode/api
