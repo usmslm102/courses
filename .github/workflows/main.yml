@@ -44,7 +44,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
-        
+        cache-dependency-path: ./NodeJS/react-express-azure-app-service-vscode/api/package-lock.json
     
     - name: check working folder
       working-directory: ./NodeJS/react-express-azure-app-service-vscode/api
