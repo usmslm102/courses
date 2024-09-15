@@ -17,6 +17,11 @@ let todos = [
     id: 1,
     title: 'Test Todo App',
     completed: false
+  },
+  {
+    id: 2,
+    title: 'Test Todo App 22',
+    completed: true
   }
 ];
 let currentId = 2;
