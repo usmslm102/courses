@@ -1,49 +1,49 @@
 on:
-    push:
-      branches: [ "test-build" ]
-      paths: [
-        "NodeJS/react-express-azure-app-service-vscode/todo-app-react/**",
-        ".github/workflows/frontend-appservice.yml"
-      ]
-    workflow_dispatch:
+  push:
+    branches: [ "test-build" ]
+    paths: [
+      "NodeJS/react-express-azure-app-service-vscode/todo-app-react/**",
+      ".github/workflows/frontend-appservice.yml"
+    ]
+  workflow_dispatch:
+
+env:
+    AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+    NODE_VERSION: '20.x'                # set this to the node version to use
   
-    env:
-        AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-        NODE_VERSION: '20.x'                # set this to the node version to use
+permissions:
+    contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react
+    steps:
+    - uses: actions/checkout@v4
     
-    permissions:
-        contents: read
-  
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      defaults:
-        run:
-          working-directory: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react
-      steps:
-      - uses: actions/checkout@v4
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react/package-lock.json
-      
-      - name: check working folder
-        working-directory: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react
-        run: pwd
-      
-      - name: npm install, build, and test
-        working-directory: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react
-        run: |
-          npm install
-  
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: node-app-fe
-          path: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react/dist
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react/package-lock.json
+    
+    - name: check working folder
+      working-directory: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react
+      run: pwd
+    
+    - name: npm install, build, and test
+      working-directory: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react
+      run: |
+        npm install
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-app-fe
+        path: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react/dist
   
     # deploy:
     #   permissions:
