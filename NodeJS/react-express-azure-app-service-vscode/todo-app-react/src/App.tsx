@@ -6,7 +6,7 @@ import { Button } from './components/ui/button';
 import { Label } from './components/ui/label';
 import { Checkbox } from './components/ui/checkbox';
 
-const apiUrl = 'http://localhost:3001/todos';
+const apiUrl = 'https://todo-app-bkend.azurewebsites.net/todos';
 
 function App() {
   const [todos, setTodos] = useState<any[]>([]);
