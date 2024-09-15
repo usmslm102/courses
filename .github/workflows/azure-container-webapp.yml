@@ -39,42 +39,35 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ env.REPO }}/nginx-proxy:${{ github.sha }}
-          context: ./NodeJS/react-express-azure-app-service-docker/proxy
-          file: ./NodeJS/react-express-azure-app-service-docker/proxy/dockerfile
+          context: ./NodeJS/github-actions/react-express-compose/proxy
+          file: ./NodeJS/github-actions/react-express-compose/proxy/dockerfile
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           push: true
           tags: ghcr.io/${{ env.REPO }}/react-todo-frontend:${{ github.sha }}
-          context: ./NodeJS/react-express-azure-app-service-docker/todo-app-react
-          file: ./NodeJS/react-express-azure-app-service-docker/todo-app-react/dockerfile
+          context: ./NodeJS/github-actions/react-express-compose/todo-app-react
+          file: ./NodeJS/github-actions/react-express-compose/todo-app-react/dockerfile
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           push: true
           tags: ghcr.io/${{ env.REPO }}/express-todo-backend:${{ github.sha }}
-          context: ./NodeJS/react-express-azure-app-service-docker/api
-          file: ./NodeJS/react-express-azure-app-service-docker/api/dockerfile
+          context: ./NodeJS/github-actions/react-express-compose/api
+          file: ./NodeJS/github-actions/react-express-compose/api/dockerfile
+          
       - name: Azure CLI Login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
       - name: Azure CLI script
         uses: azure/cli@v2
         with:
           azcliversion: latest
           inlineScript: |
-            az account show
-            # You can write your Azure CLI inline scripts here.
-
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: todo-docker-compose
-          publish-profile: ${{ secrets.TODO_DOCKER_COMPOSE }}
-          configuration-file: ./NodeJS/github-actions/react-express-compose/docker-compose.yml
+            az webapp config container set --resource-group api-app-54_group --name todo-docker-compose --multicontainer-config-type compose --multicontainer-config-file ./NodeJS/github-actions/react-express-compose/docker-compose.yml
