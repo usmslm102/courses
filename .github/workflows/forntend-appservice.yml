@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ "test-build" ]
+    branches: [ "main" ]
     paths: 
       - "NodeJS/github-actions/react-express/todo-app-react/**"
       - ".github/workflows/**"
