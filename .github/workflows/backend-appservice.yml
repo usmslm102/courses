@@ -20,10 +20,9 @@
 on:
   push:
     branches: [ "test-build" ]
-    paths: [
-      "./NodeJS/github-actions/react-express/api/**",
-      ".github/workflows/**"
-    ]
+    paths:
+      - "./NodeJS/github-actions/react-express/api/**"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 env:
