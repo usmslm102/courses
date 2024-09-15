@@ -68,7 +68,7 @@ jobs:
       - name: replace image version in compose
         shell: pwsh
         run: |
-          $composePath = ./NodeJS/github-actions/react-express-compose/docker-compose.yml
+          $composePath = "./NodeJS/github-actions/react-express-compose/docker-compose.yml"
           ((Get-Content -path $composePath -Raw) -replace 'latest','${{ github.sha }}') | Set-Content -Path $composePath
           Get-Content -path $composePath -Raw
           
