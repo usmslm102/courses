@@ -1,0 +1,43 @@
+on:
+  push:
+    branches: [ "main" ]
+    paths: 
+      - "NodeJS/github-actions/react-express/todo-app-react/**"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+env:
+    AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+    NODE_VERSION: '20.x'                # set this to the node version to use
+  
+permissions:
+    contents: read
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./NodeJS/github-actions/react-express/todo-app-react
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: ./NodeJS/github-actions/react-express/todo-app-react/package-lock.json
+    
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run build
+
+    - name: 'Deploy to Azure WebApp'
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: todo-app-frontend
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FE }}
+        package: NodeJS/github-actions/react-express/todo-app-react/dist
