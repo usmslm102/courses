@@ -15,6 +15,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
       - uses: actions/checkout@v4
@@ -55,6 +56,19 @@ jobs:
           tags: ghcr.io/${{ env.REPO }}/express-todo-backend:${{ github.sha }}
           context: ./NodeJS/react-express-azure-app-service-docker/api
           file: ./NodeJS/react-express-azure-app-service-docker/api/dockerfile
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Azure CLI script
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az account show
+            # You can write your Azure CLI inline scripts here.
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
