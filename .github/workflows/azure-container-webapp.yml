@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "docker-compose" ]
     paths:
-      - "./NodeJS/github-actions/react-express-compose/**"
+      - "NodeJS/github-actions/react-express-compose/**"
       - ".github/workflows/azure-container-webapp.yml"
   workflow_dispatch:
 
