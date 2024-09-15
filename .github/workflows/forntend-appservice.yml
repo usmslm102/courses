@@ -2,7 +2,7 @@ on:
   push:
     branches: [ "test-build" ]
     paths: 
-      - "NodeJS/react-express-azure-app-service-vscode/todo-app-react/**"
+      - "NodeJS/github-actions/react-express/todo-app-react/**"
       - ".github/workflows/**"
   workflow_dispatch:
 
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react
+        working-directory: .NodeJS/github-actions/react-express/todo-app-react
     steps:
     - uses: actions/checkout@v4
     
@@ -27,7 +27,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
-        cache-dependency-path: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react/package-lock.json
+        cache-dependency-path: ./NodeJS/github-actions/react-express/todo-app-react/package-lock.json
     
     - name: npm install, build, and test
       run: |
@@ -40,4 +40,4 @@ jobs:
       with:
         app-name: todo-app-frontend
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FE }}
-        package: ./NodeJS/react-express-azure-app-service-vscode/todo-app-react/dist
+        package: NodeJS/github-actions/react-express/todo-app-react/dist
