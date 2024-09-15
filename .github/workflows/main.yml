@@ -41,13 +41,13 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
-
-    - working-directory: /NodeJS/react-express-azure-app-service-vscode/api
     
     - name: check working folder
+      working-directory: /NodeJS/react-express-azure-app-service-vscode/api
       run: pwd
     
     - name: npm install, build, and test
+      working-directory: /NodeJS/react-express-azure-app-service-vscode/api
       run: |
         npm install
 
@@ -55,4 +55,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: .
+        path: /NodeJS/react-express-azure-app-service-vscode/api
