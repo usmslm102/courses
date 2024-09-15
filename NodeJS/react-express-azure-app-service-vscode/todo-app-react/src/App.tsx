@@ -42,7 +42,7 @@ function App() {
 
   return (
     <div className="flex flex-col items-center p-4">
-      <h1 className="text-2xl font-bold mb-4">Todo List</h1>
+      <h1 className="text-2xl font-bold mb-4">Todo List 123</h1>
       <div className="flex mb-4">
         <Input
           type="text"
