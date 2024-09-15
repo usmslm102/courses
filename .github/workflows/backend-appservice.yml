@@ -1,3 +1,5 @@
+name: todo backend CI/CD
+
 on:
   push:
     branches: [ "main" ]

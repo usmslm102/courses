@@ -1,3 +1,5 @@
+name: todo frontend CI/CD
+
 on:
   push:
     branches: [ "main" ]
