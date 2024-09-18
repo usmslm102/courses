@@ -1,0 +1,88 @@
+name: Build and deploy a container to an Azure Web App
+
+env:
+  AZURE_WEBAPP_NAME: todo-docker-compose  # set this to the name of your Azure Web App
+  RESOURCE_GROUP: api-app-54_group        # set this to the name of your Azure resource group
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "NodeJS/github-actions/react-express-compose/**"
+      - ".github/workflows/azure-container-webapp.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: Production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
+
+      - name: Log in to GitHub container registry
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Lowercase the repo name and username
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
+      - name: Build and push proxy container image to registry
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        with:
+          push: true
+          tags: |
+            ghcr.io/${{ env.REPO }}/nginx-proxy:${{ github.sha }}
+            ghcr.io/${{ env.REPO }}/nginx-proxy:latest
+          context: ./NodeJS/github-actions/react-express-compose/proxy
+          file: ./NodeJS/github-actions/react-express-compose/proxy/dockerfile
+
+      - name: Build and push react container image to registry
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        with:
+          push: true
+          tags: |
+            ghcr.io/${{ env.REPO }}/react-todo-frontend:${{ github.sha }}
+            ghcr.io/${{ env.REPO }}/react-todo-frontend:latest
+          context: ./NodeJS/github-actions/react-express-compose/todo-app-react
+          file: ./NodeJS/github-actions/react-express-compose/todo-app-react/dockerfile
+
+      - name: Build and push API container image to registry
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPO }}/express-todo-backend:${{ github.sha }}
+          context: ./NodeJS/github-actions/react-express-compose/api
+          file: ./NodeJS/github-actions/react-express-compose/api/dockerfile
+          
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: replace image version in compose
+        shell: pwsh
+        run: |
+          $composePath = "./NodeJS/github-actions/react-express-compose/docker-compose.yml"
+          ((Get-Content -path $composePath -Raw) -replace 'latest','${{ github.sha }}') | Set-Content -Path $composePath
+          Get-Content -path $composePath -Raw
+          
+      - name: Azure CLI script
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az webapp config container set --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.AZURE_WEBAPP_NAME }} --multicontainer-config-type compose --multicontainer-config-file ./NodeJS/github-actions/react-express-compose/docker-compose.yml
