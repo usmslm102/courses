@@ -2,7 +2,7 @@ name: Build and deploy a container to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: todo-docker-compose  # set this to the name of your Azure Web App
-  RESOURCE_GROUP: api-app-54_group        # set this to the name of your Azure resource group
+  RESOURCE_GROUP: todo-docker-compose_group       # set this to the name of your Azure resource group
 
 on:
   push:
