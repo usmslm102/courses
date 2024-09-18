@@ -6,7 +6,7 @@ env:
 
 on:
   push:
-    branches: [ "docker-compose" ]
+    branches: [ "main" ]
     paths:
       - "NodeJS/github-actions/react-express-compose/**"
       - ".github/workflows/azure-container-webapp.yml"
@@ -18,7 +18,7 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment: Production
 
@@ -38,7 +38,7 @@ jobs:
       - name: Lowercase the repo name and username
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
-      - name: Build and push container image to registry
+      - name: Build and push proxy container image to registry
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           push: true
@@ -48,7 +48,7 @@ jobs:
           context: ./NodeJS/github-actions/react-express-compose/proxy
           file: ./NodeJS/github-actions/react-express-compose/proxy/dockerfile
 
-      - name: Build and push container image to registry
+      - name: Build and push react container image to registry
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           push: true
@@ -58,7 +58,7 @@ jobs:
           context: ./NodeJS/github-actions/react-express-compose/todo-app-react
           file: ./NodeJS/github-actions/react-express-compose/todo-app-react/dockerfile
 
-      - name: Build and push container image to registry
+      - name: Build and push API container image to registry
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           push: true
