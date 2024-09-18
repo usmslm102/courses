@@ -1,12 +1,5 @@
-# Azure App Service with Docker Compose: Full-Stack React & Node.js Deployment
+# Deploy Dockerized React & Express App to Azure App Service with GitHub Actions
 
-In this video, I walk you through the process of deploying a full-stack application with a React frontend and an Express.js backend API to Azure App Service using Docker Compose. I cover the steps required to build and containerize both the frontend and backend, configure Docker Compose for a seamless deployment, and deploy the application to Azure. This guide is perfect for developers looking to leverage Azure's powerful cloud services for their full-stack applications.
+In this video, I demonstrate how to deploy a Dockerized React frontend and Express backend application to Azure App Service using GitHub Actions. From setting up the CI/CD pipeline to configuring the Docker containers, this step-by-step guide will help you deploy your full-stack application seamlessly to the cloud. Whether you're new to GitHub Actions or looking to optimize your Docker-based deployments, this video has got you covered.
 
-By the end of this tutorial, you'll be able to:
-
-Set up Docker Compose for a React frontend and Express.js backend.
-Deploy a full-stack app to Azure App Service.
-Optimize deployment for cloud environments.
-Make sure to like, share, and subscribe for more cloud architecture and development tutorials!"
-
-[![React+Node App service docker.jpg](image/React+Node%20App%20service%20docker.jpg)](https://youtu.be/SSPvUslt16w)
+[![React+Node App service docker.jpg](image/React+Node%20App%20service%20docker%20github%20action.jpg)](https://youtu.be/OLpQLK_HK3w)
