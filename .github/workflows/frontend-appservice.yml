@@ -1,21 +1,26 @@
+name: todo frontend CI/CD
+
 on:
   push:
     branches: [ "main" ]
     paths: 
       - "NodeJS/github-actions/react-express/todo-app-react/**"
-      - ".github/workflows/**"
+      - ".github/workflows/frontend-appservice.yml"
   workflow_dispatch:
 
 env:
-    AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
     NODE_VERSION: '20.x'                # set this to the node version to use
   
 permissions:
     contents: read
+    id-token: write # for azure login
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    environment: 
+      name: Production
+      url: ${{steps.deploy-to-webapp.outputs.webapp-url}}
     defaults:
       run:
         working-directory: ./NodeJS/github-actions/react-express/todo-app-react
@@ -34,10 +39,16 @@ jobs:
         npm install
         npm run build
 
+    - name: Azure CLI Login
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
     - name: 'Deploy to Azure WebApp'
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
         app-name: todo-app-frontend
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_FE }}
         package: NodeJS/github-actions/react-express/todo-app-react/dist
